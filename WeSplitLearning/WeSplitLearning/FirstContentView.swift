@@ -7,14 +7,23 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct FirstContentView: View {
+    let cricketTeams = ["Scorchers", "Stars", "Hurricanes", "Sixers", "Thunder", "Strikers", "Heat", "Renegades"].sorted()
+    
     @State private var pressCount = 0
     @State private var name = ""
+    @State private var favoriteTeam: String
     
     var body: some View {
         NavigationStack {
             Form {
                 Section {
+                    Picker("Favourite cricket team", selection: $favoriteTeam) {
+                        ForEach(cricketTeams, id: \String.self) {
+                            Text($0)
+                        }
+                    }
+                    
                     Text("I'm in section 1")
                     Text("I'm in section 1")
                     Text("I'm in section 1")
@@ -42,8 +51,12 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.large)
         }
     }
+    
+    init() {
+        favoriteTeam = cricketTeams[0]
+    }
 }
 
 #Preview {
-    ContentView()
+    FirstContentView()
 }
