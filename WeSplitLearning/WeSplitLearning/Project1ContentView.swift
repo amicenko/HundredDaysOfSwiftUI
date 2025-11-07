@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MainContentView: View {
+struct Project1ContentView: View {
     let predefinedTips = [0.0, 0.1, 0.15, 0.2, 0.25]
 
     @State private var billAmount = 0.0
@@ -78,5 +78,5 @@ struct MainContentView: View {
 }
 
 #Preview {
-    MainContentView()
+    Project1ContentView()
 }

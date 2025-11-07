@@ -11,7 +11,7 @@ import SwiftUI
 struct WeSplitLearningApp: App {
     var body: some Scene {
         WindowGroup {
-            MainContentView()
+            Challenge1ContentView()
         }
     }
 }
