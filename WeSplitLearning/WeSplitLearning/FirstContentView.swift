@@ -7,12 +7,14 @@
 
 import SwiftUI
 
+fileprivate let defaultTeam = "Scorchers"
+
 struct FirstContentView: View {
-    let cricketTeams = ["Scorchers", "Stars", "Hurricanes", "Sixers", "Thunder", "Strikers", "Heat", "Renegades"].sorted()
+    let cricketTeams = [defaultTeam, "Stars", "Hurricanes", "Sixers", "Thunder", "Strikers", "Heat", "Renegades"].sorted()
     
     @State private var pressCount = 0
     @State private var name = ""
-    @State private var favoriteTeam: String
+    @State private var favoriteTeam = defaultTeam
     
     var body: some View {
         NavigationStack {
@@ -50,10 +52,6 @@ struct FirstContentView: View {
             .navigationTitle("Our WeSplit")
             .navigationBarTitleDisplayMode(.large)
         }
-    }
-    
-    init() {
-        favoriteTeam = cricketTeams[0]
     }
 }
 
