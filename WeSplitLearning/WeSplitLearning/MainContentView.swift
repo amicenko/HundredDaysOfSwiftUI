@@ -7,6 +7,11 @@ struct MainContentView: View {
     @State private var numPeople = 2
     @State private var tipPercentBecauseOfAmerica = 0.0
 
+    var yourTotalToPay: Double {
+        return (billAmount / Double(numPeople))
+            * (1 + tipPercentBecauseOfAmerica)
+    }
+
     var body: some View {
         NavigationStack {
             Form {
@@ -27,9 +32,12 @@ struct MainContentView: View {
                     }
                     // .pickerStyle(.navigationLink)
                 }
-                
+
                 Section("Would you like to leave a tip?") {
-                    Picker("Tip percentage", selection: $tipPercentBecauseOfAmerica) {
+                    Picker(
+                        "Tip percentage",
+                        selection: $tipPercentBecauseOfAmerica
+                    ) {
                         ForEach(predefinedTips, id: \.self) {
                             Text($0, format: .percent)
                         }
@@ -37,13 +45,14 @@ struct MainContentView: View {
                     .pickerStyle(.segmented)
                 }
 
-                Section {
-//                    Text(
-//                        billAmount,
-//                        format: .currency(
-//                            code: Locale.current.currency?.identifier ?? "AUD"
-//                        )
-//                    )
+                Section("You need to pay") {
+                    Text(
+                        yourTotalToPay,
+                        format: .currency(
+                            code: Locale.current.currency?.identifier ?? "AUD"
+                        )
+                    )
+                    .fontWeight(.heavy)
                 }
             }
             .navigationTitle("Split The Bill")
