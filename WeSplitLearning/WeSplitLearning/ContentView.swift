@@ -8,19 +8,38 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var pressCount = 0
+    @State private var name = ""
+    
     var body: some View {
-        Form {
-            Section {
-                Text("I'm in section 1")
+        NavigationStack {
+            Form {
+                Section {
+                    Text("I'm in section 1")
+                    Text("I'm in section 1")
+                    Text("I'm in section 1")
+                    
+                    Button("Press Count: \(pressCount)") {
+                        self.pressCount += 1
+                    }
+                    .keyboardShortcut(KeyboardShortcut("B", modifiers: EventModifiers.command))
+                }
+                
+                Section {
+                    Text("I'm in section 2")
+                    Text("I'm in section 2")
+                    Text("I'm in section 2")
+                    Text("I'm in section 2")
+                    Text("I'm in section 2")
+                }
+                
+                TextField("What's your name?", text: $name)
+                Text("Hello, \(name.isEmpty ? "World" : name)!")
+                Text("Hello, \(name.isEmpty ? "World" : name)!")
+                Text("Hello, \(name.isEmpty ? "World" : name)!")
             }
-            
-            Section {
-                Text("I'm section 2")
-            }
-            
-            Text("Hello, world!")
-            Text("Hello, world!")
-            Text("Hello, world!")
+            .navigationTitle("Our WeSplit")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 }
