@@ -6,6 +6,8 @@ struct MainContentView: View {
     @State private var billAmount = 0.0
     @State private var numPeople = 2
     @State private var tipPercentBecauseOfAmerica = 0.0
+    
+    @FocusState private var needsKeyboard: Bool
 
     var yourTotalToPay: Double {
         return (billAmount / Double(numPeople))
@@ -24,6 +26,7 @@ struct MainContentView: View {
                         )
                     )
                     .keyboardType(.decimalPad)
+                    .focused($needsKeyboard)
 
                     Picker("Number of people", selection: $numPeople) {
                         ForEach(2..<21, id: \.self) {
@@ -56,7 +59,21 @@ struct MainContentView: View {
                 }
             }
             .navigationTitle("Split The Bill")
+            .toolbar {
+                if needsKeyboard {
+                    Button("OK") {
+                        needsKeyboard = false
+                    }
+                }
+            }
         }
+//        .onTapGesture {
+//            // Note that the presence of this handler here will cause the number of people
+//            // picker not to be selectable.
+//            // To make it work properly, the gesture needs to be on something else, e.g. a clear backgroun
+//            // or use a ZStack.
+//            needsKeyboard = false
+//        }
     }
 }
 
