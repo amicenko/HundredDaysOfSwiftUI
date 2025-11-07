@@ -14,7 +14,11 @@ struct Challenge1ContentView: View {
     }
 
     private let unitType = ["Mass", "Length", "Volume", "Temperature"]
-    private let lengthUnits = ["mm", "ft", "yd", "m", "km", "mi"]
+    private let lengthUnits = [
+        UnitLength.millimeters, UnitLength.feet, UnitLength.yards,
+        UnitLength.meters, UnitLength.kilometers, UnitLength.miles,
+        UnitLength.astronomicalUnits,
+    ]
     private let massUnits = [
         UnitMass.grams, UnitMass.kilograms, UnitMass.ounces, UnitMass.pounds,
         UnitMass.shortTons,
@@ -28,9 +32,8 @@ struct Challenge1ContentView: View {
     @State private var sourceMassUnit = UnitMass.kilograms
     @State private var targetMassUnit = UnitMass.grams
 
-    private var convertedLength: Double {
-        return 0.0
-    }
+    @State private var sourceLengthUnit = UnitLength.meters
+    @State private var targetLengthUnit = UnitLength.millimeters
 
     private var convertedMass: String {
         let measurement = Measurement(value: sourceMass, unit: sourceMassUnit)
@@ -40,9 +43,23 @@ struct Challenge1ContentView: View {
         return formatter.string(from: measurement.converted(to: targetMassUnit))
     }
 
+    private var convertedLength: String {
+
+        let measurement = Measurement(
+            value: sourceLength,
+            unit: sourceLengthUnit
+        )
+        let formatter = MeasurementFormatter()
+        formatter.unitStyle = .short
+        formatter.unitOptions = .providedUnit
+        return formatter.string(
+            from: measurement.converted(to: targetLengthUnit)
+        )
+    }
+
     var body: some View {
         TabView {
-            Tab("Mass", systemImage: "balance") {
+            Tab("Mass", systemImage: "square.and.arrow.up.badge.clock") {
                 NavigationView {
                     Form {
                         TextField(
@@ -50,13 +67,12 @@ struct Challenge1ContentView: View {
                             value: $sourceMass,
                             format: .number
                         )
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .textFieldStyle(.roundedBorder)
                         .keyboardType(.decimalPad)
 
                         Picker("From Unit", selection: $sourceMassUnit) {
                             ForEach(massUnits, id: \.self) {
-                                (unit: UnitMass) in
-                                Text(unit.symbol)
+                                Text($0.symbol)
                             }
                         }
                         .pickerStyle(.segmented)
@@ -75,15 +91,48 @@ struct Challenge1ContentView: View {
                     .navigationTitle("Mass")
                 }
             }
+
+            Tab("Length", systemImage: "arrow.down.left.arrow.up.right") {
+                NavigationView {
+                    Form {
+                        TextField(
+                            "Amount",
+                            value: $sourceLength,
+                            format: .number
+                        )
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.decimalPad)
+
+                        Picker("From Unit", selection: $sourceLengthUnit) {
+                            ForEach(lengthUnits, id: \.self) {
+                                Text($0.symbol)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+
+                        Picker("To Unit", selection: $targetLengthUnit) {
+                            ForEach(lengthUnits, id: \.self) {
+                                Text($0.symbol)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+
+                        Text(convertedLength)
+                            .font(.headline)
+                            .padding()
+                    }
+                    .navigationTitle("Length")
+                }
+            }
         }
-        //                Section("Convert from") {
-        //                    TextField("Amount", value: $sourceAmount, format: .number)
-        //
-        //                    Picker("Press Count: \(pressCount)") {
-        //                        self.pressCount += 1
-        //                    }
-        //                    .keyboardShortcut(KeyboardShortcut("B", modifiers: EventModifiers.command))
-        //                }
+//                Section("Convert from") {
+//                    TextField("Amount", value: $sourceAmount, format: .number)
+//
+//                    Picker("Press Count: \(pressCount)") {
+//                        self.pressCount += 1
+//                    }
+//                    .keyboardShortcut(KeyboardShortcut("B", modifiers: EventModifiers.command))
+//                }
 
     }
 }
