@@ -11,7 +11,7 @@ import SwiftUI
 struct GuessTheFlagLearningApp: App {
     var body: some Scene {
         WindowGroup {
-            FlagView()
+            FlagViewEndDay21()
         }
     }
 }
