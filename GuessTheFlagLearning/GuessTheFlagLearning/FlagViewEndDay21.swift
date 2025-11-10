@@ -17,6 +17,7 @@ struct FlagViewEndDay21: View {
 
     @State private var isScoreShowing = false
     @State private var scoreTitle = ""
+    @State private var scoreMessage = ""
     @State private var score = 0
 
     var body: some View {
@@ -78,7 +79,7 @@ struct FlagViewEndDay21: View {
             .alert(scoreTitle, isPresented: $isScoreShowing) {
                 Button("Continue", action: askQuestion)
             } message: {
-                Text("Your score is \(score)")
+                Text(scoreMessage)
             }
         }
     }
@@ -87,8 +88,11 @@ struct FlagViewEndDay21: View {
         if number == currentCorrectAnswer {
             scoreTitle = "Correct"
             score += 1
+            scoreMessage = "Your score is \(score)."
         } else {
             scoreTitle = "Incorrect"
+            scoreMessage =
+                "You chose \(countries[number]). The correct flag was number \(currentCorrectAnswer + 1).\nYour final score was \(score)."
             score = 0
         }
 
