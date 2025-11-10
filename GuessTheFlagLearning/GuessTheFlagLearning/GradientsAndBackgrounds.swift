@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct GradientsAndBackgrounds: View {
     var body: some View {
         ZStack {
             Color.primary.opacity(0.25)
@@ -57,5 +57,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    GradientsAndBackgrounds()
 }
