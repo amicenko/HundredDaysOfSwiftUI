@@ -7,17 +7,23 @@
 
 import SwiftUI
 
-struct BoxModifier: ViewModifier {
+struct BoxModifier<S: ShapeStyle>: ViewModifier {
+    let style: S
+    
+    init(style: S) {
+        self.style = style
+    }
+    
     func body(content: Content) -> some View {
         content
             .padding()
-            .border(.foreground)
+            .border(style)
     }
 }
 
 extension View {
-    func boxed() -> some View {
-        modifier(BoxModifier())
+    func boxed(_ style: some ShapeStyle = .foreground) -> some View {
+        modifier(BoxModifier(style: style))
     }
 }
 
@@ -34,7 +40,7 @@ struct RowCol<Content: View>: View {
                 HStack {
                     ForEach(0..<columns, id: \.self) { col in
                         Image(systemName: "\(row * rows + col + 1).circle.fill")
-                        content(row, col).boxed()
+                        content(row, col).boxed(row == 1 ? .primary : .secondary)
                     }
                 }
             }
