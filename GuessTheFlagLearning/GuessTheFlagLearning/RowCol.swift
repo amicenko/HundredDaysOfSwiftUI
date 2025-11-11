@@ -7,6 +7,20 @@
 
 import SwiftUI
 
+struct BoxModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding()
+            .border(.foreground)
+    }
+}
+
+extension View {
+    func boxed() -> some View {
+        modifier(BoxModifier())
+    }
+}
+
 // It's not actually a grid, since it doesn't line up column edges
 struct RowCol<Content: View>: View {
     let rows: Int
@@ -20,7 +34,7 @@ struct RowCol<Content: View>: View {
                 HStack {
                     ForEach(0..<columns, id: \.self) { col in
                         Image(systemName: "\(row * rows + col + 1).circle.fill")
-                        content(row, col)
+                        content(row, col).boxed()
                     }
                 }
             }
